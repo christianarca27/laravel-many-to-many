@@ -4,7 +4,18 @@
     <div class="container">
         <h1>{{ $project->title }}</h1>
 
-        <pre>{{ $project->type?->name }}</pre>
+        <div class="mb-3">
+            <strong>Tipo: </strong>
+            <pre>{{ $project->type?->name }}</pre>
+        </div>
+
+        <div class="mb-3">
+            <strong>Tecnologie: </strong>
+            @foreach ($technologies as $technology)
+                <span class="badge rounded-pill"
+                    style="background-color: {{ $technology->color }}">{{ $technology->name }}</span>
+            @endforeach
+        </div>
 
         <img src="{{ $project->preview }}" alt="">
 
