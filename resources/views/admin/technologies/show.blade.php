@@ -45,6 +45,35 @@
             </div>
         </div>
 
+        <h2>Progetti correlati</h2>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Titolo</th>
+                    <th scope="col">Slug</th>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Data</th>
+                    <th scope="col">URL</th>
+                    <th scope="col">Azioni</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($technology->projects as $project)
+                    <tr>
+                        <td>{{ $project->title }}</td>
+                        <td>{{ $project->slug }}</td>
+                        <td>{{ $project->type?->name }}</td>
+                        <td>{{ $project->date }}</td>
+                        <td>{{ $project->url }}</td>
+                        <td>
+                            <a href="{{ route('admin.projects.show', $project) }}"><i class="fa-solid fa-search"></i></a>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+
         <a href="{{ route('admin.technologies.index') }}">Torna alla lista completa</a>
     </div>
 @endsection
