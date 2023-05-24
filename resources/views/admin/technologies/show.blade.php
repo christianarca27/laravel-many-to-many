@@ -44,5 +44,7 @@
                 </div>
             </div>
         </div>
+
+        <a href="{{ route('admin.technologies.index') }}">Torna alla lista completa</a>
     </div>
 @endsection
