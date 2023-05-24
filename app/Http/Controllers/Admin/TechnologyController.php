@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Technology;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class TechnologyController extends Controller
 {
@@ -27,7 +29,7 @@ class TechnologyController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.technologies.create');
     }
 
     /**
@@ -38,7 +40,15 @@ class TechnologyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $formData = $request->all();
+        $formData['slug'] = Str::slug($formData['name']);
+        $this->validation($formData);
+
+        $newTechnology = new Technology();
+        $newTechnology->fill($formData);
+        $newTechnology->save();
+
+        return redirect()->route('admin.technologies.show', $newTechnology);
     }
 
     /**
@@ -60,7 +70,7 @@ class TechnologyController extends Controller
      */
     public function edit(Technology $technology)
     {
-        //
+        return view('admin.technologies.edit', compact('technology'));
     }
 
     /**
@@ -72,7 +82,13 @@ class TechnologyController extends Controller
      */
     public function update(Request $request, Technology $technology)
     {
-        //
+        $formData = $request->all();
+        $formData['slug'] = Str::slug($formData['name']);
+        $this->validation($formData);
+
+        $technology->update($formData);
+
+        return redirect()->route('admin.technologies.show', $technology);
     }
 
     /**
@@ -86,5 +102,22 @@ class TechnologyController extends Controller
         $technology->delete();
 
         return redirect()->route('admin.technologies.index');
+    }
+
+    private function validation($formData)
+    {
+        $validator = Validator::make(
+            $formData,
+            [
+                'name' => 'required',
+                'color' => 'required'
+            ],
+            [
+                'name.required' => 'Campo obbligatorio',
+                'color.required' => 'Campo obbligatorio',
+            ]
+        )->validate();
+
+        return $validator;
     }
 }
