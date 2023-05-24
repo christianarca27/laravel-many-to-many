@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Project;
+use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -31,8 +32,9 @@ class ProjectController extends Controller
     public function create()
     {
         $types = Type::all();
+        $technologies = Technology::all();
 
-        return view('admin.projects.create', compact('types'));
+        return view('admin.projects.create', compact('types', 'technologies'));
     }
 
     /**
@@ -53,6 +55,10 @@ class ProjectController extends Controller
         $newProject->slug = Str::slug($newProject->title);
 
         $newProject->save();
+
+        if (array_key_exists('technologies', $formData)) {
+            $newProject->technologies()->attach($formData['technologies']);
+        }
 
         return redirect()->route('admin.projects.show', $newProject);
     }
@@ -79,8 +85,9 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $types = Type::all();
+        $technologies = Technology::all();
 
-        return view('admin.projects.edit', compact('project', 'types'));
+        return view('admin.projects.edit', compact('project', 'types', 'technologies'));
     }
 
     /**
@@ -98,6 +105,12 @@ class ProjectController extends Controller
         $formData['slug'] = Str::slug($formData['title']);
 
         $project->update($formData);
+
+        if (array_key_exists('technologies', $formData)) {
+            $project->technologies()->sync($formData['technologies']);
+        } else {
+            $project->technologies()->detach();
+        }
 
         return redirect()->route('admin.projects.show', $project);
     }
@@ -122,7 +135,7 @@ class ProjectController extends Controller
         $validator = Validator::make(
             $formData,
             [
-                'title' => 'required|unique:projects,title|min:5',
+                'title' => 'required|min:5',
                 'type_id' => 'nullable|exists:types,id',
                 'date' => 'required',
                 'preview' => 'required',
@@ -131,7 +144,6 @@ class ProjectController extends Controller
             ],
             [
                 'title.required' => 'Campo obbligatorio',
-                'title.unique' => 'Titolo già presente, scegline un altro',
                 'type_id.exists' => 'Categoria non esistente',
                 'title.min' => 'Inserisci almeno 5 caratteri',
                 'date.required' => 'Campo obbligatorio',

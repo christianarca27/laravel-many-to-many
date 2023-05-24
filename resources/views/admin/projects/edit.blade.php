@@ -40,6 +40,16 @@
             </div>
 
             <div class="input-group mb-3">
+                @foreach ($technologies as $technology)
+                    <div class="form-check">
+                        <input type="checkbox" name="technologies[]" id="technology-{{ $technology->id }}"
+                            value="{{ $technology->id }}" @checked($project->technologies->contains($technology))>
+                        <label for="technology-{{ $technology->id }}">{{ $technology->name }}</label>
+                    </div>
+                @endforeach
+            </div>
+
+            <div class="input-group mb-3">
                 <label class="input-group-text" for="date">Data</label>
                 <input type="date" class="form-control @error('date') is-invalid @enderror" name="date"
                     value="{{ old('date') ?? $project->date }}" required>
