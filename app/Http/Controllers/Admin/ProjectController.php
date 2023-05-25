@@ -137,6 +137,7 @@ class ProjectController extends Controller
             [
                 'title' => 'required|min:5',
                 'type_id' => 'nullable|exists:types,id',
+                'technologies' => 'nullable|exists:technologies,id',
                 'date' => 'required',
                 'preview' => 'required',
                 'description' => 'required',
@@ -145,6 +146,7 @@ class ProjectController extends Controller
             [
                 'title.required' => 'Campo obbligatorio',
                 'type_id.exists' => 'Categoria non esistente',
+                'technologies.exists' => 'Tipologia non esistente',
                 'title.min' => 'Inserisci almeno 5 caratteri',
                 'date.required' => 'Campo obbligatorio',
                 'preview.required' => 'Campo obbligatorio',

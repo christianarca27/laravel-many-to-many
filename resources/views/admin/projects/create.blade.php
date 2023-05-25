@@ -45,6 +45,12 @@
                         <label for="technology-{{ $technology->id }}">{{ $technology->name }}</label>
                     </div>
                 @endforeach
+
+                @error('technologies')
+                    <div class="text-danger">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
 
             <div class="input-group mb-3">
