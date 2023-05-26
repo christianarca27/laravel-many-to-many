@@ -17,9 +17,14 @@
             @endforeach
         </div>
 
-        <img class="w-50" src="{{ asset('storage/' . $project->preview) }}" alt="Preview progetto">
+        @if ($project->preview)
+            <img class="w-50" src="{{ asset('storage/' . $project->preview) }}" alt="Preview progetto">
+        @endif
 
-        <p>{{ $project->description }}</p>
+        <div class="mb-3">
+            <strong>Descrizione</strong>
+            <p>{{ $project->description }}</p>
+        </div>
 
         <a class="d-block mb-3" href="{{ $project->url }}" target="_blank">Vai al progetto Github</a>
 
