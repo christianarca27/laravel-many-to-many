@@ -158,7 +158,7 @@ class ProjectController extends Controller
                 'title' => 'required|min:5',
                 'type_id' => 'nullable|exists:types,id',
                 'technologies' => 'nullable|exists:technologies,id',
-                'preview' => 'required|image|max:4096',
+                'preview' => 'nullable|image|max:4096',
                 'description' => 'required',
                 'url' => 'required',
             ],
