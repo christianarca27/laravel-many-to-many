@@ -17,8 +17,7 @@ return new class extends Migration
             $table->id();
 
             $table->string('title', 50)->unique();
-            $table->date('date');
-            $table->string('preview');
+            $table->string('preview')->nullable();
             $table->text('description');
 
             $table->timestamps();

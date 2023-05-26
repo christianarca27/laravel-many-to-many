@@ -4,7 +4,7 @@
     <div class="container">
         <h1>Aggiungi progetto</h1>
 
-        <form action="{{ route('admin.projects.store') }}" method="post">
+        <form action="{{ route('admin.projects.store') }}" method="post" enctype="multipart/form-data">
             @csrf
 
             <div class="input-group mb-3">
@@ -41,7 +41,7 @@
                 @foreach ($technologies as $technology)
                     <div class="form-check">
                         <input type="checkbox" name="technologies[]" id="technology-{{ $technology->id }}"
-                            value="{{ $technology->id }}">
+                            value="{{ $technology->id }}" @checked(in_array($technology->id, old('technologies', [])))>
                         <label for="technology-{{ $technology->id }}">{{ $technology->name }}</label>
                     </div>
                 @endforeach
@@ -54,20 +54,8 @@
             </div>
 
             <div class="input-group mb-3">
-                <label class="input-group-text" for="date">Data</label>
-                <input type="date" class="form-control @error('date') is-invalid @enderror" name="date"
-                    value="{{ old('date') }}" required>
-
-                @error('date')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-                @enderror
-            </div>
-
-            <div class="input-group mb-3">
                 <label class="input-group-text" for="preview">Anteprima</label>
-                <input type="text" class="form-control @error('preview') is-invalid @enderror" name="preview"
+                <input type="file" class="form-control @error('preview') is-invalid @enderror" name="preview"
                     value="{{ old('preview') }}" required>
 
                 @error('preview')

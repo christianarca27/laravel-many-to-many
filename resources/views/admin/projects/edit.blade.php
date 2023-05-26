@@ -4,7 +4,7 @@
     <div class="container">
         <h1>Modifica progetto</h1>
 
-        <form action="{{ route('admin.projects.update', $project) }}" method="post">
+        <form action="{{ route('admin.projects.update', $project) }}" method="post" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -42,8 +42,13 @@
             <div class="input-group mb-3">
                 @foreach ($technologies as $technology)
                     <div class="form-check">
-                        <input type="checkbox" name="technologies[]" id="technology-{{ $technology->id }}"
-                            value="{{ $technology->id }}" @checked($project->technologies->contains($technology))>
+                        @if ($errors->any())
+                            <input type="checkbox" name="technologies[]" id="technology-{{ $technology->id }}"
+                                value="{{ $technology->id }}" @checked(in_array($technology->id, old('technologies', [])))>
+                        @else
+                            <input type="checkbox" name="technologies[]" id="technology-{{ $technology->id }}"
+                                value="{{ $technology->id }}" @checked($project->technologies->contains($technology))>
+                        @endif
                         <label for="technology-{{ $technology->id }}">{{ $technology->name }}</label>
                     </div>
                 @endforeach
@@ -56,21 +61,8 @@
             </div>
 
             <div class="input-group mb-3">
-                <label class="input-group-text" for="date">Data</label>
-                <input type="date" class="form-control @error('date') is-invalid @enderror" name="date"
-                    value="{{ old('date') ?? $project->date }}" required>
-
-                @error('date')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-                @enderror
-            </div>
-
-            <div class="input-group mb-3">
                 <label class="input-group-text" for="preview">Anteprima</label>
-                <input type="text" class="form-control @error('preview') is-invalid @enderror" name="preview"
-                    value="{{ old('preview') ?? $project->preview }}" required>
+                <input type="file" class="form-control @error('preview') is-invalid @enderror" name="preview" required>
 
                 @error('preview')
                     <div class="invalid-feedback">

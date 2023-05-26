@@ -17,9 +17,7 @@
             @endforeach
         </div>
 
-        <img src="{{ $project->preview }}" alt="">
-
-        <p>Data di pubblicazione: {{ $project->date }}</p>
+        <img class="w-50" src="{{ asset('storage/' . $project->preview) }}" alt="Preview progetto">
 
         <p>{{ $project->description }}</p>
 

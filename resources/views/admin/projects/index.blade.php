@@ -12,7 +12,6 @@
                     <th scope="col">Titolo</th>
                     <th scope="col">Slug</th>
                     <th scope="col">Tipo</th>
-                    <th scope="col">Data</th>
                     <th scope="col">URL</th>
                     <th scope="col">Azioni</th>
                 </tr>
@@ -23,7 +22,6 @@
                         <td>{{ $project->title }}</td>
                         <td>{{ $project->slug }}</td>
                         <td>{{ $project->type?->name }}</td>
-                        <td>{{ $project->date }}</td>
                         <td>{{ $project->url }}</td>
                         <td>
                             <a href="{{ route('admin.projects.show', $project) }}"><i class="fa-solid fa-search"></i></a>

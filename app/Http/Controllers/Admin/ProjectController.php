@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -53,6 +54,11 @@ class ProjectController extends Controller
         $newProject->fill($formData);
 
         $newProject->slug = Str::slug($newProject->title);
+
+        if ($request->hasFile('preview')) {
+            $path = Storage::put('previews', $request->preview);
+            $newProject->preview = $path;
+        }
 
         $newProject->save();
 
@@ -102,7 +108,17 @@ class ProjectController extends Controller
         $this->validation($request);
 
         $formData = $request->all();
-        $formData['slug'] = Str::slug($formData['title']);
+
+        $project->slug = Str::slug($formData['title']);
+
+        if ($request->hasFile('preview')) {
+            if ($project->preview) {
+                Storage::delete($project->preview);
+            }
+
+            $path = Storage::put('previews', $request->preview);
+            $project->preview = $path;
+        }
 
         $project->update($formData);
 
@@ -123,6 +139,10 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+        if ($project->preview) {
+            Storage::delete($project->preview);
+        }
+
         $project->delete();
 
         return redirect()->route('admin.projects.index');
@@ -138,8 +158,7 @@ class ProjectController extends Controller
                 'title' => 'required|min:5',
                 'type_id' => 'nullable|exists:types,id',
                 'technologies' => 'nullable|exists:technologies,id',
-                'date' => 'required',
-                'preview' => 'required',
+                'preview' => 'required|image|max:4096',
                 'description' => 'required',
                 'url' => 'required',
             ],
@@ -148,7 +167,9 @@ class ProjectController extends Controller
                 'type_id.exists' => 'Categoria non esistente',
                 'technologies.exists' => 'Tipologia non esistente',
                 'title.min' => 'Inserisci almeno 5 caratteri',
-                'date.required' => 'Campo obbligatorio',
+                'preview.required' => 'Campo obbligatorio',
+                'preview.image' => 'Formato del file non corretto',
+                'preview.max' => 'Hai superato il limite di :max KB',
                 'preview.required' => 'Campo obbligatorio',
                 'description.required' => 'Campo obbligatorio',
                 'url.required' => 'Campo obbligatorio',

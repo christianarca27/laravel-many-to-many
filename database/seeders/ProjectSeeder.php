@@ -25,8 +25,6 @@ class ProjectSeeder extends Seeder
 
             $newProject->title = $generator->sentence(3);
             $newProject->type_id = $generator->randomElement($types)->id;
-            $newProject->date = $generator->date();
-            $newProject->preview = $generator->imageUrl();
             $newProject->description = $generator->paragraph();
             $newProject->url = 'https://github.com/christianarca27/' . $generator->word() . '.git';
             $newProject->slug = Str::slug($newProject->title);
