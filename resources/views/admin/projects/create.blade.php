@@ -56,7 +56,7 @@
             <div class="input-group mb-3">
                 <label class="input-group-text" for="preview">Anteprima</label>
                 <input type="file" class="form-control @error('preview') is-invalid @enderror" name="preview"
-                    value="{{ old('preview') }}" required>
+                    value="{{ old('preview') }}">
 
                 @error('preview')
                     <div class="invalid-feedback">
