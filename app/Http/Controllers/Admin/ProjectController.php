@@ -46,11 +46,10 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validation($request);
+        $formData = $request->all();
+        $this->validation($formData);
 
         $newProject = new Project();
-
-        $formData = $request->all();
         $newProject->fill($formData);
 
         $newProject->slug = Str::slug($newProject->title);
@@ -105,9 +104,8 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        $this->validation($request);
-
         $formData = $request->all();
+        $this->validation($formData);
 
         $project->slug = Str::slug($formData['title']);
 
@@ -148,10 +146,8 @@ class ProjectController extends Controller
         return redirect()->route('admin.projects.index');
     }
 
-    private function validation(Request $request)
+    private function validation($formData)
     {
-        $formData = $request->all();
-
         $validator = Validator::make(
             $formData,
             [

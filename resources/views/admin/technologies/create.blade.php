@@ -9,7 +9,7 @@
 
             <div class="input-group mb-3">
                 <label class="input-group-text" for="name">Nome</label>
-                <input type="text" class="form-control @error('name') is-invalid @enderror" name="name"
+                <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name"
                     value="{{ old('name') }}" required>
 
                 @error('name')

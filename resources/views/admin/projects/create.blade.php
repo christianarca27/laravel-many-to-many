@@ -9,7 +9,7 @@
 
             <div class="input-group mb-3">
                 <label class="input-group-text" for="title">Titolo</label>
-                <input type="text" class="form-control @error('title') is-invalid @enderror" name="title"
+                <input type="text" class="form-control @error('title') is-invalid @enderror" name="title" id="title"
                     value="{{ old('title') }}" required minlength="5">
 
                 @error('title')
@@ -21,7 +21,7 @@
 
             <div class="input-group mb-3">
                 <label class="input-group-text" for="type_id">Tipo</label>
-                <select class="form-select @error('type_id') is-invalid @enderror" name="type_id" required>
+                <select class="form-select @error('type_id') is-invalid @enderror" name="type_id" id="type_id" required>
                     <option value="" selected>Nessuno</option>
 
                     @foreach ($types as $type)
@@ -55,7 +55,8 @@
 
             <div class="input-group mb-3">
                 <label class="input-group-text" for="preview">Anteprima</label>
-                <input type="file" class="form-control @error('preview') is-invalid @enderror" name="preview">
+                <input type="file" class="form-control @error('preview') is-invalid @enderror" name="preview"
+                    id="preview">
 
                 @error('preview')
                     <div class="invalid-feedback">
@@ -66,7 +67,7 @@
 
             <div class="input-group mb-3">
                 <label class="input-group-text" for="description">Descrizione</label>
-                <textarea class="form-control @error('description') is-invalid @enderror" name="description" required>{{ old('description') }}</textarea>
+                <textarea class="form-control @error('description') is-invalid @enderror" name="description" id="description" required>{{ old('description') }}</textarea>
 
                 @error('description')
                     <div class="invalid-feedback">
@@ -77,7 +78,7 @@
 
             <div class="input-group mb-3">
                 <label class="input-group-text" for="url">Url Github</label>
-                <input type="text" class="form-control @error('url') is-invalid @enderror" name="url"
+                <input type="text" class="form-control @error('url') is-invalid @enderror" name="url" id="url"
                     value="{{ old('url') }}" required>
 
                 @error('url')
